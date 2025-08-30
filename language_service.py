@@ -42,13 +42,18 @@ class LanguageService:
         
         try:
             response = self.model.generate_content(prompt)
+            response_text = response.text.strip()
+            if response_text[0] is not "{" :
+                find_start = response_text.find("{")
+                find_end = response_text.find("}", find_start)
+                response_text = response_text[find_start:find_end + 1]
             # Parse the JSON response
-            result = json.loads(response.text.strip())
+            result = json.loads(response_text)
             return result
         except json.JSONDecodeError as e:
-            return {"error": f"Invalid JSON response: {str(e)}", "translation": "", "gender": "", "plural": "", "examples": []}
+            return {"error": f"Invalid JSON response: {str(e)}", "translation": "", "gender": "", "plural": "", "examples": [text]}
         except Exception as e:
-            return {"error": f"Could not process word lookup: {str(e)}", "translation": "", "gender": "", "plural": "", "examples": []}
+            return {"error": f"Could not process word lookup: {str(e)}", "translation": "", "gender": "", "plural": "", "examples": [text]}
     
     def grammar_explanation(self, text: str, is_question: bool = False) -> str:
         if is_question:
@@ -80,4 +85,5 @@ class LanguageService:
 if __name__ == "__main__":
     service = LanguageService()
     print(service.word_lookup("Haus", source_to_target=False))
+    print(service.word_lookup("Cat", source_to_target=True))
     print(service.grammar_explanation("Ich gehe zu der Schule.", is_question=False))
