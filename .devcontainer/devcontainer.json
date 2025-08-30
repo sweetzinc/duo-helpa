@@ -1,0 +1,28 @@
+{
+    "name": "duo-helpa-devcontainer",
+    "image": "mcr.microsoft.com/devcontainers/python:3.12",
+    "features": {
+        "ghcr.io/devcontainers/features/node:1": {},
+        "ghcr.io/anthropics/devcontainer-features/claude-code:1.0": {}
+    },
+    "postCreateCommand": "pip install -r requirements.txt",
+    "forwardPorts": [7860, 7861, 7862],
+    "portsAttributes": {
+        "7860": {
+            "label": "Gradio App",
+            "onAutoForward": "notify"
+        }
+    },
+    "customizations": {
+        "vscode": {
+            "settings": {
+                "python.defaultInterpreterPath": "/usr/local/bin/python3.12"
+            },
+            "extensions": [
+                "ms-python.python",
+                "ms-toolsai.jupyter",
+                "anthropic.claude-dev"
+            ]
+        }
+    }
+}
