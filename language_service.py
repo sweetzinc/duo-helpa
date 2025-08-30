@@ -43,7 +43,7 @@ class LanguageService:
         try:
             response = self.model.generate_content(prompt)
             response_text = response.text.strip()
-            if response_text[0] is not "{" :
+            if response_text[0] != "{" :
                 find_start = response_text.find("{")
                 find_end = response_text.find("}", find_start)
                 response_text = response_text[find_start:find_end + 1]
