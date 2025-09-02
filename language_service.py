@@ -80,6 +80,40 @@ class LanguageService:
             return response.text
         except Exception as e:
             return f"Error: Could not process grammar explanation. {str(e)}"
+    
+    def sentence_correction(self, text: str) -> dict:
+        """Analyze sentence for grammar and return structured JSON response"""
+        prompt = f"""
+        Analyze this {self.target_language} sentence for grammar correctness: '{text}'
+        
+        Return ONLY a JSON object with the following structure:
+        {{
+            "grammar check": true/false (boolean indicating if grammar is correct),
+            "corrected version": "the corrected sentence if applicable, or the original if correct",
+            "Applicable grammar explained": "explanation of grammar rules in markdown format"
+        }}
+        
+        Do not include any other text, only the JSON object.
+        """
+        
+        try:
+            response = self.model.generate_content(prompt)
+            response_text = response.text.strip()
+            
+            # Extract JSON from response if it contains extra text
+            if response_text[0] != "{":
+                find_start = response_text.find("{")
+                find_end = response_text.rfind("}") + 1
+                if find_start != -1 and find_end != 0:
+                    response_text = response_text[find_start:find_end]
+            
+            # Parse the JSON response
+            result = json.loads(response_text)
+            return result
+        except json.JSONDecodeError as e:
+            return {"error": f"Invalid JSON response: {str(e)}"}
+        except Exception as e:
+            return {"error": f"Could not process sentence correction: {str(e)}"}
 
 
 if __name__ == "__main__":
