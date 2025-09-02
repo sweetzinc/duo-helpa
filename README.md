@@ -15,7 +15,7 @@ pinned: true
 I am trying to learn claude code by creating this simple app!
 
 ## App-features
-A minimal web UI that I can access from a smartphone or tablet that can complement language learning with Duolingo. The main functionalities are described with an example of German, but it should be configurable. 
+A minimal web UI that can complement language learning with Duolingo. It can be accessed from huggingface space with smartphone or tablet.
 
 Main functionalities are:
 1. Word lookup. 
@@ -31,4 +31,4 @@ Main functionalities are:
 Because this is a learning project, I want to use things that are already familiar to me.
 * Python based 
 * Use "Gradio" and Gemini API
-* I want to host it on huggingface's private space. 
+* Will be hosted on huggingface's private space. 
