@@ -58,7 +58,7 @@ with gr.Blocks(title="Duo Helper", theme=gr.themes.Default()) as app:
     
     with gr.Tabs():
         # Word Lookup Tab
-        with gr.TabItem("📚 Word Lookup"):
+        with gr.TabItem("📚Word"):
             gr.Markdown("### Look up words and their translations")
             
             with gr.Row():
@@ -101,40 +101,9 @@ with gr.Blocks(title="Duo Helper", theme=gr.themes.Default()) as app:
                 inputs=[word_input, direction_dropdown],
                 outputs=[word_translation, word_gender, word_plural, word_examples]
             )
-        
-        # Grammar Questions Tab
-        with gr.TabItem("❓ Grammar Questions"):
-            gr.Markdown("### Ask grammar questions and get explanations")
-            
-            question_input = gr.Textbox(
-                label="Enter your grammar question",
-                placeholder="Ask a grammar question...",
-                lines=3
-            )
-            
-            question_button = gr.Button("📖 Get Answer", variant="primary")
-            with gr.Accordion("Grammar Answer", open=True):
-                question_output = gr.Markdown(
-                    value="",
-                    label="Grammar Answer",
-                    show_copy_button=True
-                )
 
-            question_button.click(
-                fn=lambda text: grammar_explanation_handler(text, "Grammar Question"),
-                inputs=[question_input],
-                outputs=question_output
-            )
-            
-            # Enable Enter key for grammar questions
-            question_input.submit(
-                fn=lambda text: grammar_explanation_handler(text, "Grammar Question"),
-                inputs=[question_input],
-                outputs=question_output
-            )
-        
         # Sentence Correction Tab
-        with gr.TabItem("✏️ Sentence Correction"):
+        with gr.TabItem("✏️Sentence"):
             gr.Markdown("### Check and correct your sentences")
             
             sentence_input = gr.Textbox(
@@ -178,9 +147,41 @@ with gr.Blocks(title="Duo Helper", theme=gr.themes.Default()) as app:
                 outputs=[grammar_check_status, corrected_version, grammar_explanation]
             )
     
+        # Grammar Questions Tab
+        with gr.TabItem("❓Grammar"):
+            gr.Markdown("### Ask grammar questions and get explanations")
+            
+            question_input = gr.Textbox(
+                label="Enter your grammar question",
+                placeholder="Ask a grammar question...",
+                lines=3
+            )
+            
+            question_button = gr.Button("📖 Get Answer", variant="primary")
+            with gr.Accordion("Grammar Answer", open=True):
+                question_output = gr.Markdown(
+                    value="",
+                    label="Grammar Answer",
+                    show_copy_button=True
+                )
+
+            question_button.click(
+                fn=lambda text: grammar_explanation_handler(text, "Grammar Question"),
+                inputs=[question_input],
+                outputs=question_output
+            )
+            
+            # Enable Enter key for grammar questions
+            question_input.submit(
+                fn=lambda text: grammar_explanation_handler(text, "Grammar Question"),
+                inputs=[question_input],
+                outputs=question_output
+            )
+        
+
     # Footer
     gr.Markdown("---")
-    gr.Markdown("💡 **Tip**: This app works great on mobile devices!")
+    gr.Markdown("💡Good Luck!")
 
 if __name__ == "__main__":
     try:
