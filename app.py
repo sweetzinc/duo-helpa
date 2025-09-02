@@ -113,11 +113,13 @@ with gr.Blocks(title="Duo Helper", theme=gr.themes.Default()) as app:
             )
             
             question_button = gr.Button("📖 Get Answer", variant="primary")
-            question_output = gr.Markdown(
-                value="",
-                label="Grammar Answer"
-            )
-            
+            with gr.Accordion("Grammar Answer", open=True):
+                question_output = gr.Markdown(
+                    value="",
+                    label="Grammar Answer",
+                    show_copy_button=True
+                )
+
             question_button.click(
                 fn=lambda text: grammar_explanation_handler(text, "Grammar Question"),
                 inputs=[question_input],
@@ -143,24 +145,26 @@ with gr.Blocks(title="Duo Helper", theme=gr.themes.Default()) as app:
             
             correction_button = gr.Button("🔍 Check Grammar", variant="primary")
             
+
             with gr.Row():
-                with gr.Column():
+                with gr.Column(scale=1, min_width=200):
                     grammar_check_status = gr.Textbox(
                         label="Grammar Check Status",
                         interactive=False
                     )
+                with gr.Column(scale=10):
                     corrected_version = gr.Textbox(
-                        label="Corrected Version",
-                        interactive=False,
-                        lines=2
+                    label="Corrected Version",
+                    interactive=False,
+                    lines=1
                     )
-                
-                with gr.Column():
-                    grammar_explanation = gr.Markdown(
-                        value="",
-                        label="Grammar Explanation"
-                    )
-            
+            with gr.Accordion("Grammar Explanation", open=True):
+                grammar_explanation = gr.Markdown(
+                    value="",
+                    label="Grammar Explanation",
+                    show_copy_button=True
+                )
+        
             correction_button.click(
                 fn=sentence_correction_handler,
                 inputs=[sentence_input],
