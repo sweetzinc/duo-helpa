@@ -24,5 +24,6 @@
                 "anthropic.claude-dev"
             ]
         }
-    }
+    },
+    "remoteUser": "root" // Added this line to run as root
 }
