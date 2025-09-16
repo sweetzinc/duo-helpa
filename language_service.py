@@ -10,6 +10,17 @@ class LanguageService:
         self.target_language = Config.TARGET_LANGUAGE
         self.source_language = Config.SOURCE_LANGUAGE
     
+    def set_target_language(self, language: str):
+        """Update the target language for translation and grammar services"""
+        if language in Config.SUPPORTED_LANGUAGES:
+            self.target_language = language
+        else:
+            raise ValueError(f"Unsupported language: {language}. Supported languages: {Config.SUPPORTED_LANGUAGES}")
+    
+    def get_target_language(self) -> str:
+        """Get the current target language"""
+        return self.target_language
+    
     def word_lookup(self, word: str, source_to_target: bool = True) -> dict:
         if source_to_target:
             prompt = f"""
@@ -17,7 +28,7 @@ class LanguageService:
             
             Return ONLY a JSON object with the following structure:
             {{
-                "translation": "the translated word",
+                "translation": "the translated word in target language",
                 "gender": "der/die/das or empty string if not applicable",
                 "plural": "plural form or empty string if not applicable", 
                 "examples": ["example sentence 1", "example sentence 2"]

@@ -8,6 +8,10 @@ class Config:
     TARGET_LANGUAGE = os.getenv('TARGET_LANGUAGE', 'German')
     SOURCE_LANGUAGE = os.getenv('SOURCE_LANGUAGE', 'English')
     
+    # Supported languages for UI dropdown
+    SUPPORTED_LANGUAGES = ["German", "French", "Spanish", "Italian"]
+    DEFAULT_TARGET_LANGUAGE = "German"
+    
     @classmethod
     def validate(cls):
         if not cls.GEMINI_API_KEY:

@@ -10,7 +10,7 @@ def word_lookup_handler(word, direction):
     if not word.strip():
         return "", "", "", "Please enter a word to look up."
     
-    source_to_target = direction == f"{Config.SOURCE_LANGUAGE} → {Config.TARGET_LANGUAGE}"
+    source_to_target = direction == f"{Config.SOURCE_LANGUAGE} → {language_service.target_language}"
     result = language_service.word_lookup(word.strip(), source_to_target)
     
     if "error" in result:
@@ -34,6 +34,17 @@ def grammar_explanation_handler(text, mode):
     result = language_service.grammar_explanation(text.strip(), is_question)
     return result
 
+def language_change_handler(new_language):
+    """Handle language selection changes"""
+    language_service.set_target_language(new_language)
+    header_text = f"A companion tool for language learning - Currently configured for {new_language}"
+    direction_choices = [
+        f"{Config.SOURCE_LANGUAGE} → {new_language}",
+        f"{new_language} → {Config.SOURCE_LANGUAGE}"
+    ]
+    direction_value = f"{Config.SOURCE_LANGUAGE} → {new_language}"
+    return header_text, gr.update(choices=direction_choices, value=direction_value)
+
 def sentence_correction_handler(text):
     """Handle sentence correction requests with JSON output"""
     if not text.strip():
@@ -54,7 +65,19 @@ def sentence_correction_handler(text):
 # Create the Gradio interface
 with gr.Blocks(title="Duo Helper", theme=gr.themes.Default()) as app:
     gr.Markdown("# 🌍 Duo Helper")
-    gr.Markdown(f"A companion tool for language learning - Currently configured for {Config.TARGET_LANGUAGE}")
+    
+    # Language selection dropdown
+    with gr.Row():
+        language_dropdown = gr.Dropdown(
+            choices=Config.SUPPORTED_LANGUAGES,
+            value=Config.DEFAULT_TARGET_LANGUAGE,
+            label="Target Language",
+            info="Select the language you want to learn",
+            scale=1
+        )
+    
+    # Dynamic header that updates with language selection
+    header_text = gr.Markdown(f"A companion tool for language learning - Currently configured for {Config.TARGET_LANGUAGE}")
     
     with gr.Tabs():
         # Word Lookup Tab
@@ -177,6 +200,13 @@ with gr.Blocks(title="Duo Helper", theme=gr.themes.Default()) as app:
                 inputs=[question_input],
                 outputs=question_output
             )
+    
+    # Language change event handler
+    language_dropdown.change(
+        fn=language_change_handler,
+        inputs=[language_dropdown],
+        outputs=[header_text, direction_dropdown]
+    )
         
 
     # Footer
