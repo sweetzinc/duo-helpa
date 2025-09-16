@@ -7,7 +7,7 @@ A minimal web UI that can complement language learning with Duolingo. It can be 
 - **Backend**: Python-based using Gradio framework
 - **LLM**: Gemini API for language processing
 - **Deployment**: Designed to be hosted on HuggingSpace's private space
-- **Language Focus**: German (but should be configurable for other languages)
+- **Language Focus**: Default German (but should be configurable for other languages like French, Spanish and Italian)
 
 ## Development Approach
 When implementing this project, key considerations should include:
@@ -17,5 +17,5 @@ When implementing this project, key considerations should include:
 - Creating grammar correction and explanation features
 - Making the language selection configurable beyond German
 
-## My name : Stephanie 
+
 
